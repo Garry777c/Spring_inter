@@ -24,7 +24,7 @@ public class AppConfig {
     @Bean
 
     public LocalSessionFactoryBean sessionFactoryBean(){
-        System.out.println("Session factory!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("Session factory about to be created!!!!!!");
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan("com.javarush.domain");
@@ -45,9 +45,9 @@ public class AppConfig {
     public DataSource dataSource() {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName("com.p6spy.engine.spy.P6SpyDriver");
-        dataSource.setJdbcUrl("jdbc:p6spy:mysql://localhost:3306/todo");
+        dataSource.setJdbcUrl("jdbc:p6spy:mysql://db:3306/todo");
         dataSource.setUsername("root");
-        dataSource.setPassword("root");
+        dataSource.setPassword("root1234");
         dataSource.setMaximumPoolSize(10);
         return dataSource;
     }
