@@ -2,10 +2,13 @@ package com.javarush.controller;
 
 import com.javarush.domain.Task;
 import com.javarush.service.TaskService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -18,6 +21,7 @@ public class TaskController {
 
 
     private final TaskService taskService;
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
@@ -42,9 +46,10 @@ public class TaskController {
     @PostMapping("/{id}")
     public String edit(Model model,
                      @PathVariable Integer id,
-                     @RequestBody TaskInfo info){
+                     @RequestBody TaskInfo info) {
         if(isNull(id) || id <=0) {
-            throw  new RuntimeException("Wrong ID");
+            LOGGER.error("Wrong ID entered");
+            throw new InputMismatchException("Wrong ID");
         }
 
         Task task = taskService.edit(id, info.getDescription(), info.getStatus());
@@ -62,7 +67,8 @@ public class TaskController {
     public String delete(Model model,
                         @PathVariable Integer id){
         if(isNull(id) || id <=0) {
-            throw  new RuntimeException("Wrong ID");
+            LOGGER.error("Wrong ID entered");
+            throw new RuntimeException("Wrong ID");
         }
         taskService.delete(id);
         return tasks(model, 1, 10);
