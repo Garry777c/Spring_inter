@@ -22,7 +22,6 @@ import java.util.Properties;
 public class AppConfig {
 
     @Bean
-
     public LocalSessionFactoryBean sessionFactoryBean(){
         System.out.println("Session factory about to be created!!!!!!");
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
