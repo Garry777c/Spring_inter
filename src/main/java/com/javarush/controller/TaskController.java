@@ -1,6 +1,7 @@
 package com.javarush.controller;
 
 import com.javarush.domain.Task;
+import com.javarush.exception.handler.UserNotFoundException;
 import com.javarush.service.TaskService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,8 +49,8 @@ public class TaskController {
                      @PathVariable Integer id,
                      @RequestBody TaskInfo info) {
         if(isNull(id) || id <=0) {
-            LOGGER.error("Wrong ID entered");
-            throw new InputMismatchException("Wrong ID");
+            LOGGER.error("While editing ID not found - error");
+            throw new UserNotFoundException(id);
         }
 
         Task task = taskService.edit(id, info.getDescription(), info.getStatus());
@@ -67,8 +68,8 @@ public class TaskController {
     public String delete(Model model,
                         @PathVariable Integer id){
         if(isNull(id) || id <=0) {
-            LOGGER.error("Wrong ID entered");
-            throw new RuntimeException("Wrong ID");
+            LOGGER.error("While deleting ID not found - error");
+            throw new UserNotFoundException(id);
         }
         taskService.delete(id);
         return tasks(model, 1, 10);

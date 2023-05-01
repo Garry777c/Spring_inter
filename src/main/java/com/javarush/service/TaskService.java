@@ -3,6 +3,7 @@ package com.javarush.service;
 import com.javarush.dao.TaskDAO;
 import com.javarush.domain.Status;
 import com.javarush.domain.Task;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +32,7 @@ public class TaskService {
     public Task edit(int id, String description, Status status){
         Task task = taskDAO.getByID(id);
         if(isNull(task)) {
-            throw new RuntimeException("Not found here");
+            throw new ObjectNotFoundException("Task not found here", Task.class);
         }
 
         task.setDescription(description);
